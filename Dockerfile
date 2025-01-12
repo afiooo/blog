@@ -11,5 +11,7 @@ COPY --from=builder /app /app
 VOLUME ["/app/data"]
 RUN npm install sqlite3@5.0.2  # https://github.com/TryGhost/node-sqlite3/issues/1581
 RUN npm install pm2 -g
+RUN addgroup -S nodegroup && adduser -S nodeuser -G nodegroup \
+    && chown -R nodeuser:nodegroup /app/data
 EXPOSE 3000
 CMD ["pm2-runtime", "app.js"]
